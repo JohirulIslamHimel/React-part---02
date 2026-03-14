@@ -2,6 +2,8 @@ import Counter from "./Counter";
 import Batsman from "./Batsman";
 import User from "./User";
 import Friends from "./Friends";
+import Posts from "./Posts";
+import Players from "./Players";
 import "./App.css";
 import { Suspense } from "react";
 
@@ -15,7 +17,15 @@ const fetchFriends = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   return res.json();
 };
+
+// Posts data fetching
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  return res.json();
+};
 function App() {
+  // call kora
+  const postsPromise = fetchPosts();
   const friendsPromise = fetchFriends();
   function handleClick() {
     alert("I am clicked");
@@ -32,6 +42,11 @@ function App() {
   return (
     <>
       <h3>Get started Vite + React</h3>
+
+      {/* Posts component */}
+      <Suspense fallback={<h4>Posts are coming ...</h4>}>
+        <Posts postsPromise={postsPromise}></Posts>
+      </Suspense>
 
       {/* user component */}
       <Suspense fallback={<h3>Loading...</h3>}>
